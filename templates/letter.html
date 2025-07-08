@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Letter 💌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <style>
+        .glow-ring {
+            box-shadow: 0 0 0px rgba(236, 72, 153, 0.6);
+            animation: glow 2s infinite ease-in-out;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 0px rgba(236, 72, 153, 0.4); }
+            50% { box-shadow: 0 0 18px rgba(236, 72, 153, 0.8); }
+        }
+
+        .wave-bar {
+            width: 4px;
+            height: 16px;
+            background-color: white;
+            border-radius: 2px;
+            margin: 0 1px;
+            animation: wave 1s infinite ease-in-out;
+        }
+
+        .wave-bar:nth-child(1) { animation-delay: 0s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.4); }
+            50% { transform: scaleY(1.2); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-white to-purple-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-md text-center p-6 space-y-4"
+         x-data="{
+             playing: false,
+             toggleAudio() {
+                 const audio = document.getElementById('moodMusic');
+                 if (this.playing) {
+                     audio.pause();
+                 } else {
+                     audio.play();
+                 }
+                 this.playing = !this.playing;
+             }
+         }"
+    >
+        <!-- Rotating Avatar -->
+        <div 
+            x-data="{ activeSlide: 0, slides: ['her.jpg', 'her1.jpg', 'her2.jpg'] }"
+            x-init="setInterval(() => activeSlide = (activeSlide + 1) % slides.length, 3000)"
+            class="w-24 h-24 mx-auto rounded-full overflow-hidden border-4 border-pink-300 shadow-md relative">
+            
+            <template x-for="(slide, index) in slides" :key="index">
+                <img x-show="activeSlide === index"
+                     :src="`{{ url_for('static', filename='') }}${slide}`"
+                     class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out">
+            </template>
+        </div>
+
+        <!-- Title -->
+        <h2 class="text-xl font-semibold text-pink-600">Open When You're {{ mood.capitalize() }} 💌</h2>
+
+        <!-- Message -->
+        <p class="text-gray-700 text-base leading-relaxed whitespace-pre-wrap">
+            {{ message }}
+        </p>
+
+        <!-- Play/Pause Button with Glow and Wave -->
+        <button @click="toggleAudio"
+                :class="playing ? 'glow-ring' : ''"
+                class="mt-4 inline-flex items-center gap-3 bg-pink-500 hover:bg-pink-600 text-white font-medium py-2 px-6 rounded-full shadow-md transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-300">
+            
+            <template x-if="!playing">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </template>
+            <template x-if="playing">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M6 5h4v14H6zm8 0h4v14h-4z"/>
+                </svg>
+            </template>
+            <span x-text="playing ? 'Pause Music' : 'Play Music'"></span>
+
+            <!-- Sound Wave Bars -->
+            <div class="flex items-end h-5 ml-1" x-show="playing">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+        </button>
+
+        <!-- Audio -->
+        <audio id="moodMusic">
+            <source src="{{ url_for('static', filename=mood + '.mp3') }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <!-- Back Button -->
+        <a href="/" class="inline-block mt-6 bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full shadow-md transition">
+            ← Back to Home
+        </a>
+    </div>
+
+</body>
+</html>

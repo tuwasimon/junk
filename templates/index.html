@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Her Profile 💌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Alpine.js for reactivity -->
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css">
+</head>
+<body class="bg-gradient-to-br from-pink-100 via-white to-purple-100 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white rounded-2xl shadow-lg w-full max-w-sm text-center p-6 space-y-4">
+        
+        <!-- Rotating Profile Avatar -->
+        <div 
+            x-data="{ activeSlide: 0, slides: ['her.jpg', 'her1.jpg', 'her2.jpg'] }"
+            x-init="setInterval(() => activeSlide = (activeSlide + 1) % slides.length, 3000)"
+            class="w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-pink-300 shadow-md relative">
+            
+            <template x-for="(slide, index) in slides" :key="index">
+                <img x-show="activeSlide === index"
+                     :src="`{{ url_for('static', filename='') }}${slide}`"
+                     class="absolute inset-0 w-full h-full object-cover transition-all duration-1000 ease-in-out">
+            </template>
+        </div>
+
+        <!-- Name and Subtitle -->
+        <h1 class="text-xl font-semibold text-gray-800">Hey, Lovely 💖</h1>
+        <p class="text-sm text-gray-500">Open your letter based on how you feel</p>
+
+        <!-- Mood Buttons -->
+        <div class="grid grid-cols-2 gap-4 mt-4">
+            <a href="/open/sad" class="flex flex-col items-center p-3 bg-pink-100 rounded-xl hover:bg-pink-200 transition">
+                <i class="ti ti-mood-sad text-2xl text-pink-500"></i>
+                <span class="mt-1 text-sm">Sad</span>
+            </a>
+            <a href="/open/miss" class="flex flex-col items-center p-3 bg-pink-100 rounded-xl hover:bg-pink-200 transition">
+                <i class="ti ti-mail-heart text-2xl text-pink-500"></i>
+                <span class="mt-1 text-sm">Miss Me</span>
+            </a>
+            <a href="/open/bored" class="flex flex-col items-center p-3 bg-pink-100 rounded-xl hover:bg-pink-200 transition">
+                <i class="ti ti-mood-neutral text-2xl text-pink-500"></i>
+                <span class="mt-1 text-sm">Bored</span>
+            </a>
+            <a href="/open/happy" class="flex flex-col items-center p-3 bg-pink-100 rounded-xl hover:bg-pink-200 transition">
+                <i class="ti ti-mood-happy text-2xl text-pink-500"></i>
+                <span class="mt-1 text-sm">Happy</span>
+            </a>
+        </div>
+
+        <!-- Chat with Me Button -->
+        <a href="/login" class="block mt-6 bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full shadow-lg transition-all text-sm font-medium">
+            <i class="ti ti-message-heart inline-block mr-2"></i>Chat with Me 💬
+        </a>
+    </div>
+
+</body>
+</html>

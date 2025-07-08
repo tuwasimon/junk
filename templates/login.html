@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login 💌</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tabler Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-white to-indigo-100 min-h-screen flex items-center justify-center px-4">
+
+    <form method="POST" class="bg-white p-8 rounded-3xl shadow-xl w-full max-w-sm space-y-6 border border-pink-100">
+        <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-2 bg-pink-100 text-pink-500 rounded-full flex items-center justify-center text-3xl shadow-inner">
+                <i class="ti ti-message-heart"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-pink-600">Hey shawty.... 💌</h2>
+            <p class="text-sm text-gray-500">Kingly log in</p>
+        </div>
+
+        {% if error %}
+        <div class="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg text-center border border-red-200">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="space-y-3">
+            <div class="relative">
+                <input type="text" name="username" placeholder="Username"
+                       class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-300 focus:outline-none">
+                <i class="ti ti-user absolute left-3 top-2.5 text-pink-400 text-lg"></i>
+            </div>
+
+            <div class="relative">
+                <input type="password" name="password" placeholder="Password"
+                       class="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-300 focus:outline-none">
+                <i class="ti ti-lock absolute left-3 top-2.5 text-pink-400 text-lg"></i>
+            </div>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-pink-500 text-white font-semibold py-2 rounded-full hover:bg-pink-600 shadow-lg transition-all ring-2 ring-transparent hover:ring-pink-300 duration-300">
+            Log In
+        </button>
+    </form>
+
+</body>
+</html>
